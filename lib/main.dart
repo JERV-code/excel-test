@@ -84,7 +84,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 cambioEstado: (value){
                   if (value != 'Election....') {
                     category = value;
-                    _getData('categorias_vehiculos').then((read) {
+                    _getData().then((read) {
                       setState(() {
                         excelData = read;
                         print(excelData);
@@ -105,10 +105,10 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
- Future <List <String>> _getData (String nameFile) async {
+ Future <List <String>> _getData () async {
 
-    List <String> dataRead = ['Election....'];
-    ByteData data = await rootBundle.load("assets/$nameFile.xlsx");
+    List <String> dataRead = [];
+    ByteData data = await rootBundle.load("assets/categorias_vehiculos.xlsx");
     var bytes = data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
     var excel = Excel.decodeBytes(bytes,);
 
@@ -119,6 +119,7 @@ class _MyHomePageState extends State<MyHomePage> {
      });
 
      dataRead.sort();
+     dataRead.insert(0, 'Election....');
     return dataRead;
 
   }
